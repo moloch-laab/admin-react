@@ -1,6 +1,7 @@
 import React from 'react';
 import { List, Datagrid, TextField, ReferenceField, EditButton, 
-        Edit, SimpleForm, ReferenceInput, SelectInput, TextInput } from 'react-admin';
+        Edit, SimpleForm, ReferenceInput, SelectInput, TextInput,
+        Create } from 'react-admin';
 
 export const PostList = props => (
   <List {...props}>
@@ -15,8 +16,12 @@ export const PostList = props => (
   </List>
 );
 
+const PostTitle = ({ record }) => {
+  return <span>Post {record ? `"${record.title}"` : ''}</span>;
+};
+
 export const PostEdit = props => (
-  <Edit {...props}>
+  <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
       <ReferenceInput source="userId" reference="users">
@@ -26,4 +31,16 @@ export const PostEdit = props => (
       <TextInput multiline source="body" />
     </SimpleForm>
   </Edit>
+);
+
+export const PostCreate = props => (
+  <Create {...props}>
+      <SimpleForm>
+          <ReferenceInput source="userId" reference="users">
+              <SelectInput optionText="name" />
+          </ReferenceInput>
+          <TextInput source="title" />
+          <TextInput multiline source="body" />
+      </SimpleForm>
+  </Create>
 );
